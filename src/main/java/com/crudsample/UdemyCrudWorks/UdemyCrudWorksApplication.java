@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class UdemyCrudWorksApplication {
 
@@ -23,7 +25,23 @@ public class UdemyCrudWorksApplication {
 		return commandLineRunner -> {
 			//createStudent(studentDao);
 			readStudent(studentDao);
+			//queryForStudents(studentDao);
+			//findByLastName(studentDao);
 		};
+	}
+
+	private void findByLastName(StudentDao studentDao) {
+		List<Student> allStudents = studentDao.findByLastName("Wadjikar");
+		for(Student student: allStudents){
+			System.out.println(student);
+		}
+	}
+
+	private void queryForStudents(StudentDao studentDao) {
+		List<Student> allStudents = studentDao.findAll();
+		for(Student student: allStudents){
+			System.out.println(student);
+		}
 	}
 
 	private void readStudent(StudentDao studentDao) {

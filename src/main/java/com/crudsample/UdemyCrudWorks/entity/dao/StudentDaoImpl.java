@@ -2,8 +2,11 @@ package com.crudsample.UdemyCrudWorks.entity.dao;
 
 import com.crudsample.UdemyCrudWorks.entity.Student;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class StudentDaoImpl implements StudentDao{
@@ -28,6 +31,25 @@ public class StudentDaoImpl implements StudentDao{
     @Override
     public Student findById(Integer id) {
         return entityManager.find(Student.class,id);
+    }
+
+    @Override
+    public List<Student> findAll() {
+        String normalQuery = "From Student";
+        String sqlQueryLastNameDesc = "From Student order by lastName desc";
+        String sqlQueryLastNameasc= "From Student order by lastName asc";
+        TypedQuery<Student> sqlQuery = entityManager.createQuery(normalQuery,Student.class);
+        return sqlQuery.getResultList();/*.stream()
+                .sorted((p1, p2) -> p1.getLastName().compareTo(p2.getLastName()));*/
+    }
+
+    @Override
+    public List<Student> findByLastName(String theLastName) {
+        String normalQuery = "From Student where lastName=:theDate";
+
+        TypedQuery<Student> sqlQuery = entityManager.createQuery(normalQuery,Student.class);
+        sqlQuery.setParameter("theDate",theLastName);
+        return sqlQuery.getResultList();
     }
 
 
